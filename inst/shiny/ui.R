@@ -66,7 +66,7 @@ ui <- fluidPage(
       conditionalPanel(
         condition = "input.by_date_radio == 'By date'",
         shiny::radioButtons(inputId = "precision_radio", label = "Precision of the timeline", choices = c("Month", "Day"),
-                            selected = config$source$timing_precision)),
+                            selected = config$source$timeline_precision)),
       shiny::checkboxInput(inputId = "customisation_check", label = "Show additional customisation options", value = FALSE),
       conditionalPanel(
         condition = "input.customisation_check == true",

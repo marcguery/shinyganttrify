@@ -1,0 +1,14 @@
+source:  
+  source_type:  "xlsx"
+  timing_format: "By date"
+  timeline_precision: "Day"
+text: 
+  alignment:  "right"
+  size: 120
+  inlcude_month_top:  TRUE
+lines:
+  quarter:  TRUE
+  wp_thickness: 6
+  activity_thickness: 4
+colour_palette: "Darjeeling1"
+

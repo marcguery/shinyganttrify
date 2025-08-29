@@ -10,9 +10,21 @@
 #' }
 #'
 #' @export
-shiny_ganttrify <- function() {
+shiny_ganttrify <- function(config_file = NA) {
+  packagedir <- system.file("", package = "shinyganttrify")
+
+  dir.create(paste0(tempdir(), "/config"))
+  outfile <- paste0(tempdir(), "/config/config.yaml")
+  config_file <- paste0(getwd(), "/", config_file)
+  
+  if(!is.na(config_file) && file.exists(config_file)){
+    file.copy(config_file, outfile, overwrite = TRUE)
+  }else{
+    file.copy(paste0(packagedir, "/extdata/config.yaml"), outfile,
+              overwrite = TRUE)
+  }
   shiny::runApp(
-    appDir = system.file("shiny", package = "shinyganttrify"),
+    appDir = paste0(packagedir, "/shiny"),
     display.mode = "normal"
   )
 }
