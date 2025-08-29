@@ -40,7 +40,8 @@ ui <- fluidPage(
                           choices = c(demo = "demo",
                                       `CSV files` = "csv",
                                       `Microsoft Excel spreadsheet` = "xlsx",
-                                      `Google spreadsheet` = "googledrive")),
+                                      `Google spreadsheet` = "googledrive"),
+                                      selected = config$source$source_type),
       
       conditionalPanel(
         condition = "input.source_type == 'csv'",
@@ -60,20 +61,29 @@ ui <- fluidPage(
    
       
       shiny::textInput(inputId = "start_date", label = "Starting date of the project", value = substring(text = as.character(Sys.Date()), first = 1, last = 7)),
-      shiny::radioButtons(inputId = "by_date_radio", label = "Input timing format", choices = c("By project month number", "By date")),
+      shiny::radioButtons(inputId = "by_date_radio", label = "Input timing format", choices = c("By project month number", "By date"), 
+                          selected = config$source$timing_format),
       conditionalPanel(
         condition = "input.by_date_radio == 'By date'",
-        shiny::radioButtons(inputId = "precision_radio", label = "Precision of the timeline", choices = c("Month", "Day"))),
+        shiny::radioButtons(inputId = "precision_radio", label = "Precision of the timeline", choices = c("Month", "Day"),
+                            selected = config$source$timing_precision)),
       shiny::checkboxInput(inputId = "customisation_check", label = "Show additional customisation options", value = FALSE),
       conditionalPanel(
         condition = "input.customisation_check == true",
-        shiny::radioButtons(inputId = "text_alignment", label = "Text alignment", choices = c("left", "right"), selected = "right", inline = TRUE),
-      shiny::checkboxInput(inputId = "month_number", label = "Include month numbers on top", value = TRUE),
-      shiny::checkboxInput(inputId = "mark_quarters", label = "Add vertical lines to mark quarters", value = TRUE),
-      shiny::sliderInput(inputId = "size_wp", label = "Thickness of the line for working packages", min = 1, max = 10, value = 6, step = 1, round = TRUE),
-      shiny::sliderInput(inputId = "size_activity", label = "Thickness of the line for activities", min = 1, max = 10, value = 4, step = 1, round = TRUE),
-      shiny::sliderInput(inputId = "size_text_relative", label = "Relative size of all text", value = 120, min = 50, max = 250, round = TRUE, post = "%"),
-      shiny::selectInput(inputId = "wes_palette", label = "Pick colour palette", choices = names(wesanderson::wes_palettes), selected = "Darjeeling1", multiple = FALSE),
+        shiny::radioButtons(inputId = "text_alignment", label = "Text alignment", choices = c("left", "right"), 
+        selected = config$text$alignment, inline = TRUE),
+      shiny::checkboxInput(inputId = "month_number", label = "Include month numbers on top",
+                            value = config$text$inlcude_month_top),
+      shiny::checkboxInput(inputId = "mark_quarters", label = "Add vertical lines to mark quarters", 
+                            value = config$lines$quarter),
+      shiny::sliderInput(inputId = "size_wp", label = "Thickness of the line for working packages", 
+                          min = 1, max = 10, value = config$lines$wp_thickness, step = 1, round = TRUE),
+      shiny::sliderInput(inputId = "size_activity", label = "Thickness of the line for activities", 
+                          min = 1, max = 10, value = config$lines$activity_thickness, step = 1, round = TRUE),
+      shiny::sliderInput(inputId = "size_text_relative", label = "Relative size of all text", 
+                          value = config$text$size, min = 50, max = 250, round = TRUE, post = "%"),
+      shiny::selectInput(inputId = "wes_palette", label = "Pick colour palette", 
+                          choices = names(wesanderson::wes_palettes), selected = config$colour_palette, multiple = FALSE),
       shiny::checkboxInput(inputId = "custom_palette_check", label = "Custom colour palette?", value = FALSE),
       conditionalPanel(
         condition = "input.custom_palette_check == true",

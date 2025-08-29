@@ -1,0 +1,1 @@
+config <- yaml::read_yaml("../extdata/config.yml")
