@@ -15,8 +15,8 @@ shiny_ganttrify <- function(config_file = NA) {
 
   dir.create(paste0(tempdir(), "/config"))
   outfile <- paste0(tempdir(), "/config/config.yaml")
-  config_file <- paste0(getwd(), "/", config_file)
-  
+  config_file <- normalizePath(config_file)
+
   if(!is.na(config_file) && file.exists(config_file)){
     file.copy(config_file, outfile, overwrite = TRUE)
   }else{
